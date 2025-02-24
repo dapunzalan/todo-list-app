@@ -1,0 +1,155 @@
+@import '_variable';
+
+.auth-page {
+  display: flex;
+  justify-content: center;
+
+  &__container {
+    width: 50%;
+    flex:  0 0 50%;
+    padding: 20px;
+
+    &--left {
+      background: url('/assets/backgrounds/auth-bg.svg') no-repeat center center;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+
+      .brand__logo {
+        // max-width: 50%;
+        // min-width: 50%;
+      }
+    }
+
+    &--right {
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+
+      & > div {
+        width: calc(100vh - 30%);
+        text-align: center;
+        justify-content: center;
+      }
+
+      .custom-divider {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        max-width: 600px;
+      }
+    }
+  }
+
+  &__logo {
+    display: none;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: calc(100vh - 30%);
+    max-width: 600px;
+    padding: 32px 0;
+  }
+
+  &__header {
+   & > h1 {
+    font-weight: 600;
+    font-size: 34px;
+   }
+  }
+
+  &__fields {
+    display: inherit;
+    flex-direction: inherit;
+    gap: inherit;
+    margin: 24px 0;
+  }
+
+  &__password-requirements {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  &__password-requirements li {
+    position: relative;
+    padding-left: 25px; /* Space for checkmark */
+  }
+  
+  &__password-requirements li::before {
+    content: "•"; /* Default bullet */
+    position: absolute;
+    left: 0;
+    color: red;
+  }
+  
+  &__password-requirements li.met::before {
+    content: "✔"; /* Checkmark when requirement is met */
+    color: green;
+    font-weight: bold;
+  }
+
+  &__no-account {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 16px;
+
+    & > div[role="button"] {
+      cursor: pointer;
+
+      &:hover {
+      text-decoration: underline;
+      }
+    }
+
+  }
+
+  &__alt-auth {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 600px;
+    margin: 24px 0;
+  }
+}
+
+.primary-color {
+  color: $primary-color;
+}
+
+@media only screen 
+  and (max-width : 1024px) { 
+   
+    .auth-page {
+      &__container {
+        width: 100%;
+        flex: unset;
+
+        &--left {
+          display: none;
+        }
+      }
+      &__logo {
+        display: flex;
+        justify-content: center;
+
+        & > img.header__logo {
+          width: 220px;
+          margin: 16px 0;
+        }
+      }
+      &__form {
+        width: 100%;
+      }
+    }
+}
