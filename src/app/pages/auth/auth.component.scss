@@ -89,7 +89,7 @@
     content: "•"; /* Default bullet */
     position: absolute;
     left: 0;
-    color: red;
+    color: #333;
   }
   
   &__password-requirements li.met::before {

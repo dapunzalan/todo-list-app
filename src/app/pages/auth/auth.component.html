@@ -28,13 +28,13 @@
             <mat-icon>{{isShowPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
           </button>
         </mat-form-field>
-        <!-- @if(!isSignIn) { -->
+        <ng-container *ngIf="!isSignIn">
           <ul class="auth-page__password-requirements">
             <li>Cannot contain your name or email address</li>
             <li>Atleast 8 characters</li>
             <li>Contains a number or symbol</li>
           </ul>
-        <!-- } -->
+        </ng-container>
       </div>
       <button type="submit" mat-flat-button color="primary" [disabled]="authFormGroup.invalid">{{ isSignIn ? 'Sign in' : 'Submit' }}</button>
       <div class="auth-page__no-account mat-h2">

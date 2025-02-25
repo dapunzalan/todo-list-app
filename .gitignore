@@ -9,6 +9,10 @@
 # Node
 /node_modules
 npm-debug.log
+<<<<<<< HEAD
+=======
+yarn-error.log
+>>>>>>> 52d7b3cb0532f96daf37cafc28ed8e38e73e603d
 
 # IDEs and editors
 .idea/
@@ -38,4 +42,8 @@ testem.log
 
 # System files
 .DS_Store
+<<<<<<< HEAD
 Thumbs.db
+=======
+Thumbs.db
+>>>>>>> 52d7b3cb0532f96daf37cafc28ed8e38e73e603d

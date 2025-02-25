@@ -5,6 +5,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatDividerModule, FormsModule, ReactiveFormsModule]
+  imports: [MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatDividerModule, FormsModule, ReactiveFormsModule, NgIf]
 })
 export class AuthComponent {
   readonly fb = inject(FormBuilder);
