@@ -1,0 +1,15 @@
+<div class="home-page">
+  <mat-drawer-container class="home-page__container">
+    <mat-drawer mode="side" opened class="home-page__sidenav">
+      <app-sidebar></app-sidebar>
+    </mat-drawer>
+    <mat-drawer-content class="home-page__main">
+      <div class="main-container">
+        <div class="main-container__breadcrumbs">
+          <h2>To-do</h2>
+        </div>
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

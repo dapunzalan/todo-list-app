@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 @include mat.core();
+@import '_variable';
 
 $my-primary: mat.define-palette(mat.$blue-palette);
 $my-accent: mat.define-palette(mat.$red-palette);
@@ -18,7 +19,7 @@ $my-theme: mat.define-light-theme((
 
 
 html, body { height: 100%; }
-body { margin: 0; padding: 0; overflow-x: hidden; font-family: Roboto, "Helvetica Neue", sans-serif; font-family: 14px; }
+body { margin: 0; padding: 0; overflow-x: hidden; font-family: Roboto, "Helvetica Neue", sans-serif; font-family: 14px; color: $text-primary-color; }
 
 * {
   box-sizing: border-box;

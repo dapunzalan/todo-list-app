@@ -1,0 +1,54 @@
+@import '_variable';
+
+.sidenav-header {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 6px;
+
+  &__logo {
+    width: 116px;
+  }
+}
+
+.sidenav-user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  margin: 24px 0;
+  color: $text-primary-color;
+
+  &__avatar > img {
+    width: 64px;
+  }
+}
+
+.sidenav-menu {
+  .mdc-list-item {
+    padding-left: 0;
+    padding-right: 0;
+    margin: 4px 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 32px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: $text-primary-color;
+    cursor: pointer;
+  }
+
+  &__item:hover {
+    background-color: $bg-light-blue;
+  }
+
+  &__item--is-active{ 
+    background-color: $bg-light-blue;
+  }
+}

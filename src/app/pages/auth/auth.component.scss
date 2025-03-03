@@ -24,7 +24,7 @@
     }
 
     &--right {
-      background-color: white;
+      background-color: $bg-white;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -71,31 +71,38 @@
   &__fields {
     display: inherit;
     flex-direction: inherit;
-    gap: inherit;
+    gap: 12px;
     margin: 24px 0;
   }
 
   &__password-requirements {
     list-style-type: none;
     padding: 0;
+    margin-top: -8px;
   }
   
   &__password-requirements li {
     position: relative;
-    padding-left: 25px; /* Space for checkmark */
+    padding-left: 30px;
+    display: flex;
+    align-items: center;   
   }
   
   &__password-requirements li::before {
-    content: "•"; /* Default bullet */
+    content: '';
     position: absolute;
     left: 0;
-    color: #333;
+    width: 8px;
+    height: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('/assets/icons/bullet.svg');
   }
   
-  &__password-requirements li.met::before {
-    content: "✔"; /* Checkmark when requirement is met */
-    color: green;
-    font-weight: bold;
+  &__password-requirements li.is-met::before {
+    width: 14px;
+    height: 14px;
+    background-image: url('/assets/icons/check.svg');
   }
 
   &__no-account {
@@ -124,7 +131,7 @@
 }
 
 .primary-color {
-  color: $primary-color;
+  color: $btn-primary-color;
 }
 
 @media only screen 
