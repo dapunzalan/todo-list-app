@@ -1,0 +1,161 @@
+@import '_variable';
+@import '_global';
+
+.todo-form {
+  @include container;
+
+  &__layout {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: calc(100% - 200px);
+    margin: 0 auto;
+    gap: 8px;
+  }
+
+  &__row {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+
+  &__column {
+    width: 100%;
+  }
+
+  &__column.not-full-width {
+    width: auto;
+  }
+
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+
+  .task-title__field.mdc-text-field__input {
+    font-weight: 600;
+  }
+
+  .upload-file__label {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    min-height: 120px;
+    border: 2px dashed #ccc;
+    align-items: center;
+    text-align: center;
+    padding: 12px;
+    color: #404040;
+    border-radius: 4px;
+  }
+
+  &__upload {
+    position: relative;
+    .upload-mat-label {
+      position: absolute;
+      background-color: $primary-white-color;
+      top: -10px;
+      left: 12px;
+      font-size: 12px;
+      color: $text-secondary-color;
+      width: 75px;
+      text-align: center;
+    }
+
+    .upload-text__note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .upload-content__error {
+      color: $text-error-color;
+    }
+
+    .browse-file-txt {
+      color: $primary-blue-color;
+      cursor: pointer;
+    }
+
+    .browse-file-txt:hover {
+      text-decoration: underline;
+    }
+
+    .upload-files {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      width: 100%;
+      margin: 32px 0 12px 0;
+
+      &__image > .image-wrapper > img{
+        width: 90px;
+        height: 100px;
+        border: 1px solid $text-primary-color;
+        margin: 0 auto;
+        display: block;
+      }
+
+      .image-wrapper {
+        position: relative;
+      }
+
+      .image-delete {
+        top: -28px;
+        right: 4px;
+        position: absolute;
+        border: 2px solid $secondary-white-color;
+        border-radius: 14px;
+        cursor: pointer;
+      }
+
+      .image-delete:hover {
+        border: 2px solid $text-primary-color;
+        color: $text-primary-color;
+      }
+
+      .image-delete .mat-icon {
+        font-size: 14px;
+        width: 16px;
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &__name {
+       text-decoration: underline;
+       width: 112px;
+       overflow: hidden;
+       white-space: nowrap;
+       text-overflow: ellipsis;
+      }
+
+      &__size {
+        font-size: 12px;
+        color: $text-secondary-color;
+      }
+    }
+    
+
+    input[type="file"] {
+      display: none;
+    }
+    
+  }
+
+  &__subtask {
+    margin: 40px 0;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    height: 80px;
+  }
+}

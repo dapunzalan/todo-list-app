@@ -1,0 +1,37 @@
+@import '_variable';
+
+.subtask-form {
+  padding: 16px 0;
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 30% 8%;
+    gap: 12px;
+  }
+
+  &__column > .column-header {
+    color: $text-secondary-color;
+  }
+
+  &__column.action-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__column.action-column > button {
+    margin-top: -22.4px;
+    cursor: pointer;
+  }
+}

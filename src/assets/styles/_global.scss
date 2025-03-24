@@ -1,0 +1,9 @@
+@import '_variable';
+
+@mixin container {
+  background-color: $primary-white-color;
+  border-radius: 16px;
+  padding: 38px;
+  overflow-x: hidden;
+  height: calc(100vh - 180px);
+}

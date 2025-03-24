@@ -1,24 +1,56 @@
 <div class="auth-page">
   <div class="auth-page__container auth-page__container--left">
-    <img class="brand__logo" src="/assets/images/logo-brand.svg" alt="logo brand here" />
+    <img
+      class="brand__logo"
+      src="/assets/images/logo-brand.svg"
+      alt="logo brand here"
+    />
   </div>
   <div class="auth-page__container auth-page__container--right">
-    <form class="auth-page__form" [formGroup]="authFormGroup" (ngSubmit)="onSubmit()">
+    <form
+      class="auth-page__form"
+      [formGroup]="authFormGroup"
+      (ngSubmit)="onSubmit()"
+    >
       <div class="auth-page__logo">
-        <img class="header__logo" src="/assets/images/logo-header.svg" alt="logo header here" />
+        <img
+          class="header__logo"
+          src="/assets/images/logo-header.svg"
+          alt="logo header here"
+        />
       </div>
       <div class="auth-page__header">
-        <h1>{{ isSignIn ? 'Sign In' : 'Create an account' }}</h1>
+        <h1>{{ formTitleTxt }}</h1>
       </div>
       <div class="auth-page__fields">
-        <mat-form-field appearance="outline" floatLabel="always">
+        <mat-form-field
+          appearance="outline"
+          floatLabel="always"
+          [hideRequiredMarker]="true"
+        >
           <mat-label>Username</mat-label>
-          <input matInput type="text" formControlName="username">
-          <mat-error *ngIf="f['username'].touched && f['username'].invalid ">Username is required</mat-error>
+          <input matInput type="text" formControlName="username" />
+          <mat-error *ngIf="f['username'].touched && f['username'].invalid">
+            {{
+              !f["username"].hasError("invalidField")
+                ? f["username"].hasError("userExist")
+                  ? "Name already exist"
+                  : "Username is required"
+                : ""
+            }}
+          </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline" floatLabel="always">
+        <mat-form-field
+          appearance="outline"
+          floatLabel="always"
+          [hideRequiredMarker]="true"
+        >
           <mat-label>Password</mat-label>
-          <input matInput [type]="isShowPassword ? 'text' : 'password'" formControlName="password" />
+          <input
+            matInput
+            [type]="isShowPassword ? 'text' : 'password'"
+            formControlName="password"
+          />
           <button
             type="button"
             mat-icon-button
@@ -26,23 +58,42 @@
             (click)="toggleShowPassword($event)"
             [attr.aria-label]="'Hide password'"
           >
-            <mat-icon>{{isShowPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+            <mat-icon>{{
+              isShowPassword ? "visibility" : "visibility_off"
+            }}</mat-icon>
           </button>
-          <mat-error *ngIf="f['password'].touched && f['password'].invalid ">{{ passwordErrorMsg }}</mat-error>
-          <mat-hint *ngIf="isPasswordStrong" class="primary-color">Password strength: Strong</mat-hint>
+          <mat-error *ngIf="f['password'].touched && f['password'].invalid">{{
+            !f["password"].hasError("invalidField") ? passwordErrorMsg : "Invalid username or password."
+          }}</mat-error>
+          <mat-hint *ngIf="isPasswordStrong && !isSignIn" class="primary-color"
+            >Password strength: Strong</mat-hint
+          >
         </mat-form-field>
         <ng-container *ngIf="!isSignIn">
           <ul class="auth-page__password-requirements">
-            <li [ngClass]="{'is-met': containsNameOrEmail }">Cannot contain your name or email address</li>
-            <li [ngClass]="{'is-met': hasMinLength }">Atleast 8 characters</li>
-            <li [ngClass]="{'is-met': hasNumberOrSymbol }">Contains a number or symbol</li>
+            <li [ngClass]="{ 'is-met': containsNameOrEmail }">
+              Cannot contain your name or email address
+            </li>
+            <li [ngClass]="{ 'is-met': hasMinLength }">Atleast 8 characters</li>
+            <li [ngClass]="{ 'is-met': hasNumberOrSymbol }">
+              Contains a number or symbol
+            </li>
           </ul>
         </ng-container>
       </div>
-      <button type="submit" mat-flat-button color="primary" [disabled]="authFormGroup.invalid">{{ isSignIn ? 'Sign in' : 'Submit' }}</button>
+      <button
+        type="submit"
+        mat-flat-button
+        color="primary"
+        [disabled]="authFormGroup.invalid"
+      >
+        {{ isSignIn ? "Sign in" : "Submit" }}
+      </button>
       <div class="auth-page__no-account mat-h2">
-        <div>{{ isSignIn ? "Don't" : 'Already' }} have an account?</div>
-        <div class="primary-color" role="button" (click)="handleSignUp()"> {{ isSignIn ? 'Sign up' : 'Sign in' }}</div>
+        <div>{{ isSignIn ? "Don't" : "Already" }} have an account?</div>
+        <div class="primary-color" role="button" (click)="handleSignUp()">
+          {{ isSignIn ? "Sign up" : "Sign in" }}
+        </div>
       </div>
       <div class="custom-divider">
         <mat-divider></mat-divider>
@@ -50,11 +101,11 @@
         <mat-divider></mat-divider>
       </div>
       <div class="auth-page__alt-auth">
-        <button type="button"mat-stroked-button>
+        <button type="button" mat-stroked-button>
           <mat-icon svgIcon="google"></mat-icon>
           Continue with Google
         </button>
-        <button type="button"mat-stroked-button>
+        <button type="button" mat-stroked-button>
           <mat-icon svgIcon="facebook"></mat-icon>
           Continue with Facebook
         </button>

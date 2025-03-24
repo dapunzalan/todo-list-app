@@ -1,0 +1,33 @@
+<div class="confirmation-dialog" [ngClass]="{'confirmation-dialog--is-default': data.type === 'default', 'confirmation-dialog--is-delete': data.type === 'delete'}">
+  <ng-container *ngIf="data?.title && data.type === 'default'">
+    <h2 mat-dialog-title>{{ data.title }}</h2>
+  </ng-container>
+  <mat-dialog-content>
+  <ng-container *ngIf="data.type === 'default'">
+    <div *ngIf="data?.message">{{ data.message }}</div>
+    <div *ngIf="data?.subMessage">{{ data.subMessage }}</div>
+  </ng-container>
+  <ng-container *ngIf="data.type === 'delete'">
+    <div class="confirmation-dialog__icon">
+      <mat-icon svgIcon="alert"></mat-icon>
+    </div>
+    <div *ngIf="data?.message" class="confirmation-dialog__delete-message">
+      <div *ngIf="(data.names || []).length > 1">{{ data.names?.length }}</div>
+      {{ data.message }}
+    </div>
+    <div *ngIf="data.names && (data.names || []).length === 1" class="confirmation-dialog__delete-name">
+      {{ data.names[0] }}
+    </div>
+  </ng-container>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <ng-container *ngIf="data.type === 'delete'; else defaultButtons">
+      <button mat-stroked-button color="primary" class="btn--is-rounded stroked--is-primary" (click)="onClose(false)"> {{data.negativeTxt || 'Cancel'}}</button>
+      <button mat-flat-button color="primary" class="btn--is-rounded" cdkFocusInitial (click)="onClose(true)">{{data.positiveTxt || 'Ok'}}</button>
+    </ng-container>
+    <ng-template #defaultButtons> 
+      <button mat-button (click)="onClose(false)"> {{data.negativeTxt || 'Cancel'}}</button>
+      <button mat-button cdkFocusInitial (click)="onClose(true)">{{data.positiveTxt || 'Ok'}}</button>
+    </ng-template>
+  </mat-dialog-actions>
+</div>

@@ -42,13 +42,14 @@
     border-radius: 8px;
     color: $text-primary-color;
     cursor: pointer;
+    text-decoration: none;
   }
 
   &__item:hover {
-    background-color: $bg-light-blue;
+    background-color: $secondary-blue-color;
   }
 
   &__item--is-active{ 
-    background-color: $bg-light-blue;
+    background-color: $secondary-blue-color;
   }
 }

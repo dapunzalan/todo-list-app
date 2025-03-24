@@ -1,0 +1,25 @@
+@import '_variable';
+
+.priority-badge {
+  padding: 4px 6px;
+  border-radius: 6px;
+  display: inline-flex;
+}
+
+.priority-badge--is-low {
+  border: 1px solid $priority-frame-low;
+  background-color: $priority-shade-low;
+  color: $priority-txt-low;
+}
+
+.priority-badge--is-high {
+  border: 1px solid $priority-frame-high;
+  background-color: $priority-shade-high;
+  color: $priority-txt-high;
+}
+
+.priority-badge--is-critical {
+  border: 1px solid $priority-frame-critical;
+  background-color: $priority-shade-critical;
+  color: $priority-txt-critical;
+}

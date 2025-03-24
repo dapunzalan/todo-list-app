@@ -1,0 +1,29 @@
+
+@import '_variable';
+
+.status-badge {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+
+  .mat-icon {
+    width: 18px;
+  }
+
+  .mat-icon.is-small {
+    width: 14px;
+  }
+
+  &__date {
+    color: $secondary-white-color;
+  }
+}
+
+.status-badge.is-complete {
+  align-items: start;
+}
+
+.status-badge__txt.is-view {
+ color: $secondary-white-color;
+}

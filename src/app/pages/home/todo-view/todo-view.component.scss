@@ -1,0 +1,88 @@
+@import '_global';
+@import '_variable';
+
+.task-details {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: calc(100vh - 120px);
+
+
+  &__badges {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 48px;
+    margin-bottom: 18px;
+  }
+
+  &__title {
+    & > h1 {
+      margin-bottom: 0;
+      font-weight: 500;
+      font-size: 22px;
+    }
+  }
+
+  &__date {
+    color: $secondary-white-color;
+  }
+
+  &__attachments {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    width: 100%;
+    margin: 32px 0 12px 0;
+    
+    .attachment {
+      &__image > .image-wrapper > img{
+        width: 90px;
+        height: 100px;
+        margin: 0 auto;
+        display: block;
+        margin-bottom: 12px;
+      }
+  
+      &__name {
+       text-decoration: underline;
+       width: 112px;
+       overflow: hidden;
+       white-space: nowrap;
+       text-overflow: ellipsis;
+      }
+  
+      &__size {
+        font-size: 12px;
+        color: $text-secondary-color;
+      }
+    }
+  }
+
+  &__subtasks {
+    margin: 32px 0;
+  }
+
+  .subtasks__header {
+    padding: 16px 0;
+  }
+
+  .subtasks__header > h2 {
+    margin-bottom: 0;
+  }
+
+  .subtasks__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .subtasks__item {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 360px auto;
+  }
+}

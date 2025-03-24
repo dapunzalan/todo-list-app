@@ -1,0 +1,58 @@
+<ng-container *ngIf="taskDetails">
+  <div class="task-details">
+    <div class="task-details__badges">
+      <app-priority-badge [priority]="taskDetails.priority"></app-priority-badge>
+      <app-status-badge [status]="taskDetails.status" [dateCompletion]="taskDetails.dateCompletion" [isView]="true"></app-status-badge>
+    </div>
+    <div class="task-details__title">
+      <h1>{{ taskDetails.title }}</h1>
+      <div class="task-details__date">
+        {{ taskDetails.dateCreated | date:'dd MMM yyyy'}} - 
+        {{ taskDetails.dateDue | date:'dd MMM yyyy'}} 
+      </div>
+    </div>
+    <div *ngIf="taskDetails?.details" class="task-details__details">
+      {{ taskDetails.details }}
+    </div>
+    <ng-container *ngIf="taskDetails.attachments.length > 0">
+      <div class="task-details__attachments">
+        <ng-container
+              *ngFor="let item of taskDetails.attachments"
+            >
+              <div class="attachment__image">
+                <div class="image-wrapper">
+                  <img [src]="authService.serverURL + item.filePath" alt="uploaded file" />
+                </div>
+                <div
+                  class="attachment__name"
+                  [title]="item?.filename"
+                >
+                  {{ item.filename }}
+                </div>
+                <div class="attachment__size">
+                  {{ item.fileSize | kiloBytes }}
+                </div>
+              </div>
+            </ng-container>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="taskDetails.subtasks.length > 0">
+      <div class="task-details__subtasks">
+        <mat-divider></mat-divider>
+        <div class="subtasks__header">
+          <h2>Subtask</h2>
+        </div>
+        <div class="subtasks__list">
+          <ng-container *ngFor="let item of taskDetails.subtasks">
+            <div class="subtasks__item">
+              <div class="subtasks__title">{{ item.title }}</div>
+              <div class="subtasks__status">
+                <app-status-badge [status]="item.status" [isSmall]="true"></app-status-badge>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

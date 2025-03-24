@@ -1,0 +1,43 @@
+@import '_variable';
+
+.breadcrumb {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    &-back {
+      cursor: pointer;
+      margin-right: 12px;
+    }
+
+    &-back > .mat-icon {
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    & > a {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      text-decoration: none;
+      color: $primary-blue-color;
+      cursor: pointer;
+    }
+
+    & h2 {
+      margin-bottom: 0;
+    }
+  } 
+
+  &__item.is--active {
+    color: $text-primary-color;
+    font-weight: bold;
+  }
+}

@@ -24,7 +24,7 @@
     }
 
     &--right {
-      background-color: $bg-white;
+      background-color: $primary-white-color;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -62,6 +62,7 @@
   }
 
   &__header {
+    max-width: 90%;
    & > h1 {
     font-weight: 600;
     font-size: 34px;
@@ -131,7 +132,7 @@
 }
 
 .primary-color {
-  color: $btn-primary-color;
+  color: $primary-blue-color;
 }
 
 @media only screen 

@@ -7,6 +7,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+import { AuthResponse } from 'src/app/models/auth.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,20 +17,18 @@ import { Subscription } from 'rxjs';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatDividerModule, FormsModule, ReactiveFormsModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatDividerModule, FormsModule, ReactiveFormsModule]
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  readonly fb = inject(FormBuilder);
-
   isShowPassword = false;
   isSignIn = true;
   passwordErrorMsg: string;
+  formTitleTxt = 'Sign In';
 
   authFormGroup: FormGroup;
   formSubscription$ = new Subscription;
 
-  constructor () {
+  constructor (readonly fb: FormBuilder, readonly authService: AuthService, readonly router: Router) {
     this.authFormGroup = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -74,12 +75,54 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   handleSignUp(): void {
     this.isSignIn = !this.isSignIn;
+    if (!this.isSignIn) {
+      this.formTitleTxt = 'Create an account';
+    } else {
+      this.formTitleTxt = 'Sign in';
+    }
     this.authFormGroup.reset();
+    this.f['username'].setErrors(null);
+    this.f['password'].setErrors(null);
+    this.authFormGroup.markAsPristine();
     this.authFormGroup.markAsUntouched();
   }
 
   onSubmit(): void {
-    console.log(this.authFormGroup.value)
+    if (this.isSignIn) {
+      this.handleSignIn();
+    } else {
+      this.handleCreateAccount();
+    }
+  }
+
+  handleSignIn(): void {
+    this.authService.login(this.authFormGroup.value).subscribe({
+      next: (response) => {
+        this.router.navigateByUrl('/home');
+      },
+      error: err => {
+        Object.keys(this.authFormGroup.controls).forEach(key => {
+          this.authFormGroup.get(key)?.setErrors({ invalidField: true });
+        });
+        this.authFormGroup.markAllAsTouched();
+      }
+    });
+  }
+
+  handleCreateAccount(): void {
+    this.authService.register(this.authFormGroup.value).subscribe({
+      next: (response: AuthResponse) => {
+        if (response?.isSuccess) {
+          this.handleSignUp();
+          this.formTitleTxt = 'Account successfully created. Sign in to continue.';
+        }
+      },
+      error: err => {
+        if (err?.error?.isUserExist) {
+          this.f['username'].setErrors({ userExist: true})
+        }
+      }
+    });
   }
 
   ngOnDestroy(): void {

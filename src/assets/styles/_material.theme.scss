@@ -1,0 +1,84 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+$custom-light-blue-palette: (
+  50: #e0f7ff,
+  100: #b3ecff,
+  200: #80e1ff,
+  300: #4dd6ff,
+  400: #26ceff,
+  500: #62c6ff,
+  600: #00b8ff,
+  700: #009ed9,
+  800: #0085b3,
+  900: #006985,
+  A100: #d5f1ff,
+  A200: #9cdfff,
+  A400: #62c6ff,
+  A700: #3bb7ff,
+  contrast: (
+    50: #000,
+    100: #000,
+    200: #000,
+    300: #000,
+    400: #000,
+    500: #fff, // White text for the main color
+    600: #fff,
+    700: #fff,
+    800: #fff,
+    900: #fff,
+    A100: #000,
+    A200: #000,
+    A400: #fff,
+    A700: #fff,
+  ),
+);
+
+$custom-error-palette: (
+  50: #fce4ec,
+  100: #f8bbd0,
+  200: #f48fb1,
+  300: #f06292,
+  400: #ec407a,
+  500: #e91e63,
+  600: #d81b60,
+  700: #CA0061, // Custom error color here
+  800: #ad1457,
+  900: #880e4f,
+  A100: #ff80ab,
+  A200: #ff4081,
+  A400: #f50057,
+  A700: #c51162,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$my-primary: mat.define-palette(mat.$blue-palette);
+$my-accent: mat.define-palette($custom-light-blue-palette);
+$my-error: mat.define-palette($custom-error-palette, 700);
+
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-error
+  )
+));
+
+
+// Apply the theme globally
+@include mat.all-component-themes($my-theme);

@@ -1,0 +1,7 @@
+<div class="status-badge" [ngClass]="{ 'is-complete': status === 'COMPLETE' && !isView }">
+  <mat-icon [svgIcon]="status.toLowerCase()" [ngClass]="{ 'is-small': isSmall }"></mat-icon>
+  <div class="status-badge__txt" [ngClass]="{ 'is-view': isView }">
+    {{ statusTxt }}
+    <div *ngIf="status === 'COMPLETE'" class="status-badge__date" >{{ dateCompletion | date : "MM/dd/yyyy" }}</div>
+  </div>
+</div>

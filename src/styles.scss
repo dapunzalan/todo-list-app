@@ -1,21 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@use '@angular/material' as mat;
-@include mat.core();
+
 @import '_variable';
-
-$my-primary: mat.define-palette(mat.$blue-palette);
-$my-accent: mat.define-palette(mat.$red-palette);
-
-$my-theme: mat.define-light-theme((
-  color: (
-    primary: $my-primary,
-    accent: $my-accent
-  ),
-));
-
-// Apply the theme globally
-@include mat.all-component-themes($my-theme);
-
+@import '_material.theme';
 
 
 html, body { height: 100%; }
@@ -23,4 +9,26 @@ body { margin: 0; padding: 0; overflow-x: hidden; font-family: Roboto, "Helvetic
 
 * {
   box-sizing: border-box;
+}
+
+button.btn--is-rounded {
+  border-radius: 24px;
+  min-width: 100px;
+}
+
+.mat-mdc-menu-item:not([disabled]):hover,
+.mat-mdc-menu-item:not([disabled]).mat-mdc-menu-item-highlighted {
+  background-color: $secondary-blue-color !important;
+}
+
+.mat-mdc-outlined-button:not(:disabled).stroked--is-primary {
+  border-color: $primary-blue-color;
+}
+
+.mdc-checkbox .mdc-checkbox__native-control:enabled~.mdc-checkbox__background .mdc-checkbox__checkmark {
+  color: $primary-white-color !important;
+}
+
+.mdc-text-field--outlined.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: $text-error-color;
 }

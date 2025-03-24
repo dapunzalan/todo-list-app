@@ -1,0 +1,56 @@
+@import '_variable';
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 16px;
+}
+
+.confirmation-dialog {
+  padding: 16px;
+
+  &--is-default {
+    text-align: left;
+  }
+
+  &--is-delete {
+    text-align: center;
+    padding: 16px 32px;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+  }
+
+  &__icon .mat-icon{
+    width: 48px;
+    height: 48px;
+  }
+
+  &__delete-message div {
+    display: inline-block;
+    color: $primary-blue-color;
+    font-weight: 500;
+  }
+
+  &__delete-name {
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: underline;
+    color: $text-primary-color;
+    margin-top: 12px;
+  }
+
+  .mat-mdc-dialog-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  &--is-default .mat-mdc-dialog-actions {
+    justify-content: flex-end;
+  }
+  &--is-delete .mat-mdc-dialog-actions {
+    justify-content: center;
+  }
+}

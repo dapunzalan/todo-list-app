@@ -4,7 +4,7 @@
   &__container{
     width: auto;
     height: 100vh;
-    background-color: $bg-white;
+    background-color: $primary-white-color;
   }
 
   &__sidenav{
@@ -15,8 +15,12 @@
     padding: 20px 16px 20px 0px;
   }
 
+  .mat-drawer-content {
+    overflow: hidden;
+  }
+
   .main-container {
-    background-color: $bg-light-blue;
+    background-color: $secondary-blue-color;
     width: 100%;
     height: 100%;
     border-radius: 16px;

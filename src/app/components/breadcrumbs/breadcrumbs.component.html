@@ -1,0 +1,24 @@
+<div class="breadcrumb">
+  <ng-container *ngIf="breadcrumbs[0]?.label === 'To do' || breadcrumbs[1]?.label === 'To do'; else showBreadcrumbs">
+    <div class="breadcrumb__item">
+      <h2> To do</h2>
+    </div>
+  </ng-container>
+  <ng-template #showBreadcrumbs>
+    <div class="breadcrumb__item">
+      <a *ngIf="breadcrumbs[0]?.label === 'Back'" (click)="goBack()" class="breadcrumb__item-back">
+        <mat-icon>arrow_back_ios</mat-icon>
+        <h2>Back</h2>
+      </a>
+      <mat-divider vertical style="height: 24px"></mat-divider>
+    </div>
+    <div 
+      *ngFor="let crumb of breadcrumbs.slice(1); let last = last" 
+      class="breadcrumb__item" 
+      [class.is--active]="last"
+    >
+      <a *ngIf="!last; else lastCrumb" [routerLink]="crumb.url"><h2>{{ crumb.label }}</h2></a>
+      <ng-template #lastCrumb><h2>{{ crumb.label }}</h2></ng-template>
+    </div>
+  </ng-template>
+</div>

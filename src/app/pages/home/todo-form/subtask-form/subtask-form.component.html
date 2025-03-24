@@ -1,0 +1,63 @@
+<div class="subtask-form">
+  <div class="subtask-form__header">
+    <h2>Subtask</h2>
+    <button
+      type="button"
+      mat-stroked-button
+      color="primary"
+      class="btn--is-rounded stroked--is-primary"
+      (click)="addSubTask()"
+      [disabled]="subtaskGroups.length >= 10"
+    >
+      <mat-icon>add</mat-icon>
+      New Subtask
+    </button>
+  </div>
+  <form>
+    <div class="subtask-form__layout">
+      <ng-container
+        *ngFor="let subtask of subtaskGroups; let i = index"
+        [formGroup]="subtask"
+      >
+        <ng-container *ngIf="i === 0">
+          <div class="subtask-form__row">
+            <div class="subtask-form__column">
+              <div class="column-header">Title</div>
+            </div>
+            <div class="subtask-form__column">
+              <div class="column-header">Status</div>
+            </div>
+            <div class="subtask-form__column"></div>
+          </div>
+        </ng-container>
+        <div class="subtask-form__row">
+          <div class="subtask-form__column">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="true">
+              <input matInput type="text" formControlName="title" />
+              <mat-error
+                *ngIf="
+                  subtask.get('title')?.touched && subtask.get('title')?.invalid
+                "
+                >Must not be empty</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="subtask-form__column">
+            <mat-form-field appearance="outline" [hideRequiredMarker]="true">
+              <mat-select name="subtaskStatus" formControlName="status">
+                <ng-container *ngFor="let item of subtaskStatus">
+                  <mat-option [value]="item.value">{{ item.label }}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="subtask-form__column action-column">
+            <button mat-icon-button (click)="removeSubtask(i)">
+              <mat-icon svgIcon="delete"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,50 @@
+
+@import '_variable';
+
+.todo-list {
+  overflow-y: auto;
+  height: 100%;
+  margin-bottom: 20px;
+
+  &__actions {
+    border: 1px solid $tertiary-white-color;
+    border-radius: 16px;
+    padding: 8px 18px;
+    background-color: $primary-white-color;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .actions-filter {
+    display: flex;
+    gap: 12px;
+
+    &__btn > button.mat-mdc-outlined-button {
+      border-radius: 8px;  
+      padding: 0 8px 0 8px;
+
+      &:hover {
+        background-color: $secondary-blue-color;
+      }
+    }
+  }
+}
+
+.custom-menu {
+  margin-top: 8px;
+
+  & > .mat-mdc-menu-content{
+    min-width: 160px;
+
+    .mat-mdc-menu-item {
+      min-height: 36px;
+    }
+  }
+
+  &#mat-menu-panel-1, &#mat-menu-panel-2, .custom-menu#mat-menu-panel-2{
+    margin-left: 18px;
+    min-width: 200px;
+  }
+}
