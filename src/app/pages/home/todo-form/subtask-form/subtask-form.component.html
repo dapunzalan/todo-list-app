@@ -7,7 +7,7 @@
       color="primary"
       class="btn--is-rounded stroked--is-primary"
       (click)="addSubTask()"
-      [disabled]="subtaskGroups.length >= 10"
+      [disabled]="subtaskGroups.length >= 10 || isSubtasksDisabled"
     >
       <mat-icon>add</mat-icon>
       New Subtask
@@ -33,7 +33,12 @@
         <div class="subtask-form__row">
           <div class="subtask-form__column">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true">
-              <input matInput type="text" formControlName="title" />
+              <input
+                matInput
+                type="text"
+                formControlName="title"
+                [readOnly]="isSubtasksDisabled"
+              />
               <mat-error
                 *ngIf="
                   subtask.get('title')?.touched && subtask.get('title')?.invalid
@@ -44,7 +49,11 @@
           </div>
           <div class="subtask-form__column">
             <mat-form-field appearance="outline" [hideRequiredMarker]="true">
-              <mat-select name="subtaskStatus" formControlName="status">
+              <mat-select
+                name="subtaskStatus"
+                formControlName="status"
+                [disabled]="isSubtasksDisabled || formAction === 'add'"
+              >
                 <ng-container *ngFor="let item of subtaskStatus">
                   <mat-option [value]="item.value">{{ item.label }}</mat-option>
                 </ng-container>
@@ -52,8 +61,15 @@
             </mat-form-field>
           </div>
           <div class="subtask-form__column action-column">
-            <button mat-icon-button (click)="removeSubtask(i)">
-              <mat-icon svgIcon="delete"></mat-icon>
+            <button
+              type="button"
+              mat-icon-button
+              (click)="removeSubtask(i, subtask.get('title')?.value)"
+              [disabled]="isSubtasksDisabled"
+            >
+              <mat-icon
+                [svgIcon]="isSubtasksDisabled ? 'delete_inactive' : 'delete'"
+              ></mat-icon>
             </button>
           </div>
         </div>

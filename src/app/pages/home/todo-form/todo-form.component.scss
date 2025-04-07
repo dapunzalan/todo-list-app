@@ -47,6 +47,12 @@
     padding: 12px;
     color: #404040;
     border-radius: 4px;
+    background-color: $primary-white-color;
+
+    &.--is-progress {
+      background-color: $secondary-blue-color;
+      border: 2px solid #ccc;
+    }
   }
 
   &__upload {
@@ -60,6 +66,14 @@
       color: $text-secondary-color;
       width: 75px;
       text-align: center;
+    }
+
+    .upload-file__progress {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 180px;
+      text-align: left;
     }
 
     .upload-text__note {
@@ -158,4 +172,13 @@
     gap: 16px;
     height: 80px;
   }
+}
+
+@media only screen 
+  and (max-width : 800px) { 
+    .todo-form { 
+      &__row {
+        flex-direction: column;
+      }
+    }
 }

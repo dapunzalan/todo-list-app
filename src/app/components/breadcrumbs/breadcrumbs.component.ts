@@ -19,27 +19,30 @@ interface Breadcrumb {
 })
 export class BreadcrumbsComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
+  fromRoute: string = '';
 
-  constructor(readonly router: Router, readonly route: ActivatedRoute, readonly location: Location) {
-    this.breadcrumbs[0] = { label: 'To do'};
+  constructor(readonly router: Router, readonly route: ActivatedRoute, readonly location: Location) { 
   }
 
   ngOnInit() {
-    this.setBreadcrumbs();
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         this.setBreadcrumbs();
       });
+      this.setBreadcrumbs();
   }
 
   setBreadcrumbs(): void {
+    this.fromRoute = sessionStorage.getItem('fromRoute') || '';
+
     this.breadcrumbs = this.createBreadcrumbs(this.route.root);
     if (this.router.url === '/' || this.breadcrumbs.length <= 1) {
       this.breadcrumbs[0] = { label: 'To do' };
     } else {
       this.breadcrumbs[0] = { label: 'Back' };
     }
+    this.overrideBreadcrumbs();
   }
 
   createBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: Breadcrumb[] = []): Breadcrumb[] {
@@ -57,11 +60,21 @@ export class BreadcrumbsComponent implements OnInit {
         label: child.snapshot.data['breadcrumb'],
         url,
       });
-
       return this.createBreadcrumbs(child, url, breadcrumbs);
     }
 
     return breadcrumbs;
+  }
+
+  overrideBreadcrumbs(): void {
+    if (this.breadcrumbs[1]?.label === 'To do') {
+      sessionStorage.removeItem('fromRoute');
+    } else if (this.breadcrumbs[1]?.label === 'View Task') {
+      this.fromRoute = '';
+      sessionStorage.setItem('fromRoute', this.breadcrumbs[1]?.label );
+    } else if (this.breadcrumbs[1]?.label === 'Edit Task' && this.fromRoute) {
+      this.breadcrumbs[1].label = 'Edit';
+    }
   }
 
   goBack() {

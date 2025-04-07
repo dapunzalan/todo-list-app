@@ -9,7 +9,22 @@
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
-        <mat-icon svgIcon="delete"></mat-icon>
+        <ng-container
+          *ngIf="selection.selected.length > 0; else disableDeleteBtn"
+        >
+          <button class="delete-button" (click)="onDeleteTask()">
+            <mat-icon svgIcon="delete"></mat-icon>
+            <div class="delete-button__badge">
+              {{ selection.selected.length }}
+            </div>
+          </button>
+        </ng-container>
+        <ng-template #disableDeleteBtn>
+          <mat-icon
+            svgIcon="delete_inactive"
+            class="delete-icon__inactive"
+          ></mat-icon>
+        </ng-template>
       </th>
       <td mat-cell *matCellDef="let row">
         <mat-checkbox
@@ -37,8 +52,14 @@
           <mat-icon>arrow_right</mat-icon>
         </button>
         <div class="column-title__text">
-          <a [routerLink]="['/home/todo-list/view', item.taskId]">{{ item.title }}</a>
-          <mat-icon *ngIf="item.attachments.length > 0" class="row-attachment__icon">attachment</mat-icon>
+          <a [routerLink]="['/home/todo-list/view', item.taskId]">{{
+            item.title
+          }}</a>
+          <mat-icon
+            *ngIf="item.attachments.length > 0"
+            class="row-attachment__icon"
+            >attachment</mat-icon
+          >
         </div>
       </td>
     </ng-container>
@@ -54,8 +75,13 @@
         >
           <div class="extended-table__grid">
             <div class="extended-table__row" *ngFor="let item of task.subtasks">
-              <div class="extended-table__column">{{ item?.title  }}</div>
-              <div class="extended-table__column"> <app-status-badge [status]="item.status" [isSmall]="true"></app-status-badge> </div>
+              <div class="extended-table__column">{{ item?.title }}</div>
+              <div class="extended-table__column">
+                <app-status-badge
+                  [status]="item.status"
+                  [isSmall]="true"
+                ></app-status-badge>
+              </div>
             </div>
           </div>
         </div>
@@ -66,7 +92,14 @@
     <ng-container matColumnDef="dateDue">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</th>
       <td mat-cell *matCellDef="let item">
-        {{ item.dateDue | date : "MM/dd/yyyy" }}
+        <div
+          class="due-date__column"
+          [appDueDate]="item.dateDue"
+          [status]="item.status"
+          [priority]="item.priority"
+        >
+          {{ item.dateDue | date : "MM/dd/yyyy" }}
+        </div>
       </td>
     </ng-container>
 
@@ -74,26 +107,39 @@
     <ng-container matColumnDef="priority">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
       <td mat-cell *matCellDef="let item">
-        <app-priority-badge [priority]="item.priority"></app-priority-badge></td>
+        <app-priority-badge [priority]="item.priority"></app-priority-badge>
+      </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
       <td mat-cell *matCellDef="let item">
-        <app-status-badge [status]="item.status" [dateCompletion]="item.dateCompletion"></app-status-badge>
+        <app-status-badge
+          [status]="item.status"
+          [dateCompletion]="item.dateCompletion"
+        ></app-status-badge>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button disableRipple><mat-icon svgIcon="edit"></mat-icon></button>
+        <a
+          [routerLink]="['/home/todo-list/view', 'edit', row.taskId]"
+          title="Edit"
+        >
+          <mat-icon svgIcon="edit"></mat-icon>
+        </a>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      [class.selected-row]="selection.isSelected(row)"
+    ></tr>
     <tr
       mat-row
       *matRowDef="let row; columns: ['expandedDetail']"
@@ -103,7 +149,13 @@
       <td class="mat-cell" colspan="6">
         <div class="data-table__no-data">
           <h1>No Tasks Found.</h1>
-          <span>Ready to Create a New Task?</span>
+          <span>
+            {{
+              filterValues
+                ? "Please make different filter selection."
+                : "Ready to Create a New Task?"
+            }}</span
+          >
         </div>
       </td>
     </tr>

@@ -7,14 +7,17 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app-routing';
 import { AuthInterceptor } from './app/interceptors/auth.interceptor';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
+import {
+  MatSnackBarModule,
+} from '@angular/material/snack-bar'
 
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},
     provideRouter(routes),
-    importProvidersFrom(ReactiveFormsModule, FormsModule),
+    importProvidersFrom(ReactiveFormsModule, FormsModule, MatDialogModule, MatSnackBarModule),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations()

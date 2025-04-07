@@ -17,8 +17,13 @@
       class="breadcrumb__item" 
       [class.is--active]="last"
     >
-      <a *ngIf="!last; else lastCrumb" [routerLink]="crumb.url"><h2>{{ crumb.label }}</h2></a>
-      <ng-template #lastCrumb><h2>{{ crumb.label }}</h2></ng-template>
+      <h2 *ngIf="!last; else lastCrumb">{{ crumb.label }}</h2>
+      <ng-template #lastCrumb>
+        <div class="breadcrumb__item--last">
+          <h2>{{ fromRoute ? fromRoute + ' / ' : ''}}</h2>
+          <h2>{{ crumb.label }}</h2>
+        </div>
+      </ng-template>
     </div>
   </ng-template>
 </div>

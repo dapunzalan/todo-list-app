@@ -1,14 +1,30 @@
 <ng-container *ngIf="taskDetails">
   <div class="task-details">
-    <div class="task-details__badges">
-      <app-priority-badge [priority]="taskDetails.priority"></app-priority-badge>
-      <app-status-badge [status]="taskDetails.status" [dateCompletion]="taskDetails.dateCompletion" [isView]="true"></app-status-badge>
+    <div class="task-details__header">
+      <div class="task-details__badges">
+        <app-priority-badge
+          [priority]="taskDetails.priority"
+        ></app-priority-badge>
+        <app-status-badge
+          [status]="taskDetails.status"
+          [dateCompletion]="taskDetails.dateCompletion"
+          [isView]="true"
+        ></app-status-badge>
+      </div>
+      <div class="task-details__actions">
+        <button title="delete" (click)="onDeleteTask()">
+          <mat-icon svgIcon="delete"></mat-icon>
+        </button>
+        <a [routerLink]="['/home/todo-list/view', 'edit', taskDetails.taskId]" title="Edit">
+          <mat-icon svgIcon="edit"></mat-icon>
+        </a>
+      </div>
     </div>
     <div class="task-details__title">
       <h1>{{ taskDetails.title }}</h1>
       <div class="task-details__date">
-        {{ taskDetails.dateCreated | date:'dd MMM yyyy'}} - 
-        {{ taskDetails.dateDue | date:'dd MMM yyyy'}} 
+        {{ taskDetails.dateCreated | date : "dd MMM yyyy" }} -
+        {{ taskDetails.dateDue | date : "dd MMM yyyy" }}
       </div>
     </div>
     <div *ngIf="taskDetails?.details" class="task-details__details">
@@ -16,24 +32,22 @@
     </div>
     <ng-container *ngIf="taskDetails.attachments.length > 0">
       <div class="task-details__attachments">
-        <ng-container
-              *ngFor="let item of taskDetails.attachments"
-            >
-              <div class="attachment__image">
-                <div class="image-wrapper">
-                  <img [src]="authService.serverURL + item.filePath" alt="uploaded file" />
-                </div>
-                <div
-                  class="attachment__name"
-                  [title]="item?.filename"
-                >
-                  {{ item.filename }}
-                </div>
-                <div class="attachment__size">
-                  {{ item.fileSize | kiloBytes }}
-                </div>
-              </div>
-            </ng-container>
+        <ng-container *ngFor="let item of taskDetails.attachments">
+          <div class="attachment__image">
+            <div class="image-wrapper">
+              <img
+                [src]="authService.serverURL + item.filePath"
+                alt="uploaded file"
+              />
+            </div>
+            <div class="attachment__name" [title]="item?.filename">
+              {{ item.filename }}
+            </div>
+            <div class="attachment__size">
+              {{ item.fileSize | kiloBytes }}
+            </div>
+          </div>
+        </ng-container>
       </div>
     </ng-container>
     <ng-container *ngIf="taskDetails.subtasks.length > 0">
@@ -47,7 +61,10 @@
             <div class="subtasks__item">
               <div class="subtasks__title">{{ item.title }}</div>
               <div class="subtasks__status">
-                <app-status-badge [status]="item.status" [isSmall]="true"></app-status-badge>
+                <app-status-badge
+                  [status]="item.status"
+                  [isSmall]="true"
+                ></app-status-badge>
               </div>
             </div>
           </ng-container>

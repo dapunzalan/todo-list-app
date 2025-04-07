@@ -45,6 +45,14 @@ export class AuthService {
     );
   }
 
+  loginWithGoogle() {
+    window.location.href = `${this.apiUrl}/auth/google`;
+  }
+
+  loginWithFacebook() {
+    window.location.href = `${this.apiUrl}/auth/facebook`;
+  }
+
   getAccessToken() {
     return this.accessToken;
   }
@@ -89,9 +97,14 @@ export class AuthService {
   logout() {
     this.accessToken = null;
     this.isAuthenticatedSubject.next(false);
-    this.http.post(`${this.apiUrl}/auth/logout`, {}, { withCredentials: true }).subscribe(() => {
-      sessionStorage.clear();
-      this.router.navigate(['/auth']);
+    this.http.post(`${this.apiUrl}/auth/logout`, {}, { withCredentials: true }).subscribe({
+      next: () => {
+        sessionStorage.clear();
+        this.router.navigate(['/auth']);
+      },
+      error: () => {
+        this.router.navigate(['/auth']);
+      }
     });
   }
 }

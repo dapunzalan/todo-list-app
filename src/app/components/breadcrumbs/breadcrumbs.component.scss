@@ -27,8 +27,12 @@
       align-items: center;
       justify-content: flex-start;
       text-decoration: none;
-      color: $primary-blue-color;
       cursor: pointer;
+      color: $secondary-white-color;
+    }
+
+    & > a.breadcrumb__item-back {
+      color: $primary-blue-color;
     }
 
     & h2 {
@@ -37,7 +41,16 @@
   } 
 
   &__item.is--active {
-    color: $text-primary-color;
+    color: $secondary-white-color;
     font-weight: bold;
+  }
+
+  &__item--last {
+    display: flex;
+    gap: 4px;
+  }
+
+  &__item--last h2:last-child {
+    color: $text-primary-color;
   }
 }

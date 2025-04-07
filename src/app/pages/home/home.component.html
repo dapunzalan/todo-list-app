@@ -1,9 +1,14 @@
 <div class="home-page">
   <mat-drawer-container class="home-page__container">
-    <mat-drawer mode="side" opened class="home-page__sidenav">
+    <mat-drawer #drawer [mode]="drawerMode" class="home-page__sidenav">
       <app-sidebar></app-sidebar>
     </mat-drawer>
     <mat-drawer-content class="home-page__main">
+      <div class="main-header__over" *ngIf="drawerMode === 'over'">
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
       <div class="main-container">
         <app-breadcrumbs></app-breadcrumbs>
         <router-outlet></router-outlet>

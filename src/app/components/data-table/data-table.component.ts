@@ -1,6 +1,9 @@
 import {
   Component,
+  EventEmitter,
+  inject,
   Input,
+  Output,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
@@ -23,14 +26,9 @@ import { Task } from 'src/app/models/task.model';
 import { PriorityBadgeComponent } from '../priority-badge/priority-badge.component';
 import { StatusBadgeComponent } from '../status-badge/status-badge.component';
 import { RouterModule } from '@angular/router';
-export interface TodoList {
-  dueDate: string;
-  title: string;
-  priority: string;
-  status: string;
-}
-
-const ELEMENT_DATA: TodoList[] = [];
+import { TasksService } from 'src/app/services/tasks.service';
+import { Subscription } from 'rxjs';
+import { DueDateDirective } from 'src/app/directives/due-date.directive';
 
 @Component({
   selector: 'app-data-table',
@@ -44,7 +42,8 @@ const ELEMENT_DATA: TodoList[] = [];
     MatButtonModule,
     RouterModule,
     PriorityBadgeComponent,
-    StatusBadgeComponent
+    StatusBadgeComponent,
+    DueDateDirective
   ],
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
@@ -63,6 +62,7 @@ const ELEMENT_DATA: TodoList[] = [];
 export class DataTableComponent {
   @Input() data: Array<Task> = [];
   @Input() filterValues: string = '';
+  @Output() handleRefresh = new EventEmitter();
 
   displayedColumns: string[] = [
     'select',
@@ -72,17 +72,19 @@ export class DataTableComponent {
     'status',
     'edit',
   ];
-  dataSource = new MatTableDataSource<TodoList>(ELEMENT_DATA);
-  selection = new SelectionModel<TodoList>(true, []);
+  dataSource = new MatTableDataSource<Task>([]);
+  selection = new SelectionModel<Task>(true, []);
   expandedTask: Task | null = null;
 
   @ViewChild(MatSort) sort!: MatSort;
+  datatableSubscription$ = new Subscription();
 
-  constructor() {}
+  constructor(readonly taskService: TasksService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']?.currentValue) {
       this.dataSource.data = changes['data']?.currentValue;
+      this.updateDataSource();
     }
     if (changes['filterValues']?.currentValue) {
       this.dataSource.filter = changes['filterValues']?.currentValue;
@@ -90,8 +92,13 @@ export class DataTableComponent {
   }
 
   ngAfterViewInit() {
+    this.updateDataSource();
+  }
+
+  updateDataSource(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = this.customFilterPredicate();
+    this.selection.clear();
   }
 
   customFilterPredicate() {
@@ -109,14 +116,12 @@ export class DataTableComponent {
     };
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
     if (this.isAllSelected()) {
       this.selection.clear();
@@ -126,8 +131,7 @@ export class DataTableComponent {
     this.selection.select(...this.dataSource.data);
   }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: TodoList): string {
+  checkboxLabel(row?: Task): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -136,13 +140,25 @@ export class DataTableComponent {
     }`;
   }
 
-  /** Checks whether an element is expanded. */
   isExpanded(task: Task) {
     return this.expandedTask === task;
   }
 
-  /** Toggles the expanded state of an task. */
   onRowExpand(task: Task) {
     this.expandedTask = this.isExpanded(task) ? null : task;
+  }
+
+  onDeleteTask(): void {
+    this.datatableSubscription$ = this.taskService.handleDeleteTask(this.selection.selected).subscribe(
+     res => {
+       if (res) {
+         this.handleRefresh.emit(true);
+       }
+     }
+    )
+   }
+
+   ngOnDestroy(): void {
+    this.datatableSubscription$.unsubscribe();
   }
 }

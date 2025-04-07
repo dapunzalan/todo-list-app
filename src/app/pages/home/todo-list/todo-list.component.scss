@@ -4,7 +4,8 @@
 .todo-list {
   overflow-y: auto;
   height: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  padding-bottom: 40px;
 
   &__actions {
     border: 1px solid $tertiary-white-color;

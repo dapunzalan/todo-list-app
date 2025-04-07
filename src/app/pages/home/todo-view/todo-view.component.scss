@@ -8,6 +8,28 @@
   gap: 16px;
   height: calc(100vh - 120px);
 
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+
+    button {
+      all: unset;
+      cursor: pointer;
+    }
+
+    .mat-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
 
   &__badges {
     display: flex;

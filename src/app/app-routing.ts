@@ -35,6 +35,11 @@ export const routes: Routes = [
         data: { breadcrumb: 'New Task' }
       },
       {
+        path: 'todo-list/view/:action/:taskId',
+        loadComponent: () => import('./pages/home/todo-form/todo-form.component').then(m => m.TodoFormComponent),
+        data: { breadcrumb: 'Edit Task' }
+      },
+      {
         path: 'todo-list/view/:taskId',
         loadComponent: () => import('./pages/home/todo-view/todo-view.component').then(m => m.TodoViewComponent),
         data: { breadcrumb: 'View Task' }

@@ -32,3 +32,72 @@ button.btn--is-rounded {
 .mdc-text-field--outlined.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__input {
   color: $text-error-color;
 }
+
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
+  background-color: $primary-white-color !important;
+  border: 1px solid #ccc;
+}
+
+/* Ensure default arrow stays visible */
+.mat-sort-header-arrow.ng-trigger.ng-trigger-arrowPosition {
+  opacity: 1 !important;
+  transform: none !important;
+  margin-top: 10px;
+
+  &:hover {
+  transform: none !important;
+  transition: none !important;
+
+  }
+}
+/* Ensure the default Material arrows are fully hidden */
+.mat-sort-header-stem,
+.mat-sort-header-pointer-left,
+.mat-sort-header-pointer-right {
+  display: none !important;
+}
+
+.mat-sort-header-indicator .ng-trigger .ng-trigger-indicator {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Show both arrows by default (unsorted state) */
+.mat-sort-header-arrow .mat-sort-header-indicator::before {
+  content: "expand_less expand_more";
+  font-family: "Material Icons";
+  line-height: 10px;
+  margin-top: 0px;
+}
+
+/* Prevent hover/click shifting */
+.mat-sort-header-arrow {
+  transform: unset !important;
+  transition: unset !important;
+}
+
+/* Ensure no movement on hover */
+.mat-sort-header-arrow .mat-sort-header-indicator {
+  transform: translateY(0) !important; /* Reset the inline transform */
+  transition: none !important; /* Prevent hover animation */
+}
+.mat-sort-header:hover .mat-sort-header-arrow,
+.mat-sort-header:active .mat-sort-header-arrow {
+  transform: unset !important;
+}
+
+/* Show only the ascending arrow when sorted ascending */
+[aria-sort="ascending"] .mat-sort-header-arrow .mat-sort-header-indicator::before {
+  content: "expand_less";
+  opacity: 1 !important;
+  line-height: 10px;
+  margin-top: -10px;
+}
+
+/* Show only the descending arrow when sorted descending */
+[aria-sort="descending"] .mat-sort-header-arrow .mat-sort-header-indicator::before {
+  content: "expand_more";
+  opacity: 1 !important;
+  line-height: 10px;
+  margin-top: 10px;
+}

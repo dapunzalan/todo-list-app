@@ -34,6 +34,10 @@ export class AppComponent {
       this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/icons/delete.svg')
     );
     this.matIconRegistry.addSvgIcon(
+      'delete_inactive',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/icons/delete_inactive.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
       'edit',
       this.domSanitizer.bypassSecurityTrustResourceUrl('./assets/icons/edit.svg')
     );

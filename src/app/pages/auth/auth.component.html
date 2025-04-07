@@ -85,7 +85,6 @@
         type="submit"
         mat-flat-button
         color="primary"
-        [disabled]="authFormGroup.invalid"
       >
         {{ isSignIn ? "Sign in" : "Submit" }}
       </button>
@@ -101,11 +100,11 @@
         <mat-divider></mat-divider>
       </div>
       <div class="auth-page__alt-auth">
-        <button type="button" mat-stroked-button>
+        <button type="button" mat-stroked-button (click)="loginWithGoogle()" disabled>
           <mat-icon svgIcon="google"></mat-icon>
           Continue with Google
         </button>
-        <button type="button" mat-stroked-button>
+        <button type="button" mat-stroked-button (click)="loginWithFacebook()" disabled>
           <mat-icon svgIcon="facebook"></mat-icon>
           Continue with Facebook
         </button>

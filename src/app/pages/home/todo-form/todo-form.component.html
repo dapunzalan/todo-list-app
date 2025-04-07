@@ -14,11 +14,9 @@
                 <mat-option [value]="item.value">{{ item.label }}</mat-option>
               </ng-container>
             </mat-select>
-            <mat-error
-                *ngIf="
-                  f['priority']?.touched && f['priority']?.invalid
-                "
-                >Must not be empty</mat-error>
+            <mat-error *ngIf="f['priority']?.touched && f['priority']?.invalid"
+              >Must not be empty</mat-error
+            >
           </mat-form-field>
         </div>
         <div class="todo-form__column not-full-width">
@@ -30,11 +28,27 @@
             <mat-label>Status</mat-label>
             <mat-select formControlName="status" name="status">
               <ng-container *ngFor="let item of statusList">
-                <mat-option [value]="item.value">{{ item.label }}</mat-option>
+                <mat-option
+                  [value]="item.value"
+                  [disabled]="item.value === 'COMPLETE' && isCompleteDisabled"
+                  >{{ item.label }}</mat-option
+                >
               </ng-container>
             </mat-select>
           </mat-form-field>
         </div>
+        <ng-container *ngIf="f['status'].value === 'COMPLETE' ">
+          <div class="todo-form__column not-full-width">
+            <mat-form-field
+              appearance="outline"
+              floatLabel="always"
+              [hideRequiredMarker]="true"
+            >
+              <mat-label>Completion Date</mat-label>
+              <input matInput formControlName="dateCompletion" />
+            </mat-form-field>
+          </div>
+        </ng-container>
       </div>
       <div class="todo-form__row">
         <div class="todo-form__column">
@@ -55,11 +69,9 @@
               cdkAutosizeMaxRows="7"
               class="task-title__field"
             ></textarea>
-            <mat-error
-                *ngIf="
-                  f['title']?.touched && f['title']?.invalid
-                "
-                >Must not be empty</mat-error>
+            <mat-error *ngIf="f['title']?.touched && f['title']?.invalid"
+              >Must not be empty</mat-error
+            >
           </mat-form-field>
         </div>
       </div>
@@ -71,10 +83,7 @@
             [hideRequiredMarker]="true"
           >
             <mat-label>Date Created</mat-label>
-            <input
-              matInput
-              formControlName="dateCreated"
-            />
+            <input matInput formControlName="dateCreated" />
             <mat-datepicker #dateCreatedPicker></mat-datepicker>
           </mat-form-field>
         </div>
@@ -95,11 +104,11 @@
               [for]="dateDuePicker"
             ></mat-datepicker-toggle>
             <mat-datepicker #dateDuePicker></mat-datepicker>
-            <mat-error
-                *ngIf="
-                  f['dueDate']?.touched && f['dueDate']?.invalid
-                "
-                >{{ dueDateError? 'Must be later than Date Created' : 'Must not be empty'}}</mat-error>
+            <mat-error *ngIf="f['dueDate']?.touched && f['dueDate']?.invalid">{{
+              dueDateError
+                ? "Must be later than Date Created"
+                : "Must not be empty"
+            }}</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -131,68 +140,84 @@
             (fileDropped)="onFileDropped($event)"
           >
             <div class="upload-mat-label">Attachments</div>
-            <div class="upload-file__label">
-              <input
-                id="file"
-                type="file"
-                accept="image/png, image/jpeg"
-                (change)="onFileUpload($event)"
-                [multiple]="true"
-                #myFileInput
-              />
-              <div class="upload-text__note">
-                <mat-icon *ngIf="!fileErrorMsg" svgIcon="upload"></mat-icon>
-                <div class="upload-content__description">
-                  <ng-container *ngIf="!fileErrorMsg; else errorUpload">
-                    <div>
-                      Drop files to attach, or
+            <div
+              class="upload-file__label"
+              [ngClass]="{ '--is-progress': isUploadInProgress }"
+            >
+              <ng-container *ngIf="!isUploadInProgress; else uploadInProgress">
+                <input
+                  id="file"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  (change)="onFileUpload($event)"
+                  [multiple]="true"
+                  #myFileInput
+                />
+                <div class="upload-text__note">
+                  <mat-icon *ngIf="!fileErrorMsg" svgIcon="upload"></mat-icon>
+                  <div class="upload-content__description">
+                    <ng-container *ngIf="!fileErrorMsg; else errorUpload">
+                      <div>
+                        Drop files to attach, or
+                        <span
+                          class="browse-file-txt"
+                          (click)="myFileInput.click()"
+                        >
+                          browse</span
+                        >.
+                      </div>
+                    </ng-container>
+                    <ng-template #errorUpload>
+                      <div class="upload-content__error" aria-hidden="true">
+                        {{ fileErrorMsg }}
+                      </div>
                       <span
                         class="browse-file-txt"
                         (click)="myFileInput.click()"
-                      >
-                        browse</span
+                        >Click here to upload again</span
                       >.
-                    </div>
-                  </ng-container>
-                  <ng-template #errorUpload>
-                    <div class="upload-content__error" aria-hidden="true">
-                      {{ fileErrorMsg }}
-                    </div>
-                    <span class="browse-file-txt" (click)="myFileInput.click()"
-                      >Click here to upload again</span
-                    >.
-                  </ng-template>
+                    </ng-template>
+                  </div>
                 </div>
-              </div>
-              <ng-container *ngIf="selectedFileData.length > 0">
-                <div class="upload-files">
-                  <ng-container
-                    *ngFor="let item of selectedFileData; let i = index"
-                  >
-                    <div class="upload-files__image">
-                      <div class="image-wrapper">
-                        <div
-                          class="image-delete"
-                          title="Remove"
-                          (click)="onRemoveAttachment(i)"
-                        >
-                          <mat-icon>close</mat-icon>
+                <ng-container *ngIf="selectedFileData.length > 0">
+                  <div class="upload-files">
+                    <ng-container
+                      *ngFor="let item of selectedFileData; let i = index"
+                    >
+                      <div class="upload-files__image">
+                        <div class="image-wrapper">
+                          <div
+                            class="image-delete"
+                            title="Remove"
+                            (click)="onRemoveAttachment(i)"
+                          >
+                            <mat-icon>close</mat-icon>
+                          </div>
+                          <img [src]="item.urlPath" alt="uploaded file" />
                         </div>
-                        <img [src]="item.urlPath" alt="uploaded file" />
+                        <div
+                          class="upload-files__name"
+                          [title]="item?.file?.name"
+                        >
+                          {{ item?.file?.name }}
+                        </div>
+                        <div class="upload-files__size">
+                          {{ item?.file?.size | kiloBytes }}
+                        </div>
                       </div>
-                      <div
-                        class="upload-files__name"
-                        [title]="item?.file?.name"
-                      >
-                        {{ item?.file?.name }}
-                      </div>
-                      <div class="upload-files__size">
-                        {{ item?.file?.size | kiloBytes }}
-                      </div>
-                    </div>
-                  </ng-container>
-                </div>
+                    </ng-container>
+                  </div>
+                </ng-container>
               </ng-container>
+              <ng-template #uploadInProgress>
+                <div class="upload-file__progress">
+                  {{ progressFileName }}
+                  <mat-progress-bar
+                    mode="determinate"
+                    [value]="progressValue"
+                  ></mat-progress-bar>
+                </div>
+              </ng-template>
             </div>
           </div>
         </div>
@@ -204,6 +229,7 @@
             <app-subtask-form
               [formArray]="f['subtasks'] | asFormArray"
               [formAction]="formAction"
+              [status]="f['status'].value"
             ></app-subtask-form>
           </div>
         </div>
@@ -219,14 +245,26 @@
     >
       Cancel
     </button>
-    <button
-      mat-flat-button
-      color="primary"
-      class="btn--is-rounded"
-      (click)="onSave()"
-      [disabled]="todoFormGroup.invalid"
-    >
-      Save
-    </button>
+    <ng-container *ngIf="!isShowMarkAsComplete; else showMarkAsComplete">
+      <button
+        mat-flat-button
+        color="primary"
+        class="btn--is-rounded"
+        (click)="onSave()"
+        [disabled]="isFormValuesNotChanged"
+      >
+        Save
+      </button>
+    </ng-container>
+    <ng-template #showMarkAsComplete>
+      <button
+        mat-flat-button
+        color="primary"
+        class="btn--is-rounded"
+        (click)="onMarkAsComplete()"
+      >
+        Mark as Complete
+      </button>
+    </ng-template>
   </div>
 </div>
